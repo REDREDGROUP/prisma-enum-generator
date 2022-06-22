@@ -12,12 +12,16 @@ generatorHandler({
   async onGenerate(options) {
       const outputPath = options.generator.output?.value;
       const dbProviders = options.datasources[0].provider
-      const dbUrl = options.datasources[0].url.value
+      const dbUrl = options.datasources[0].url.value || process.env[options.datasources[0].url.fromEnvVar || 0]
       const enumPrefix = process.env.ENUM_PREFIX || 'enum_';
       const enumTableColumn = process.env.ENUM_TABLE_COLUMN || 'value'
 
       if(!outputPath) {
         throw new Error('Enum Exports Failed.')
+      }
+
+      if(!dbUrl) {
+        throw new Error('SQL address is not specified as string or environment variable.')
       }
   
       switch(dbProviders) {
