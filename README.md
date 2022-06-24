@@ -47,10 +47,11 @@ Done!
 
 The two options below are optional, but can be modified if the properties below and the table names used are different.
 
-`ENUM_PREFIX` enum table start prefix
+`ENUM_PREFIX` enum table start prefix (Default: enum_*)
 
 `ENUM_TABLE_COLUMN` Value column for table enum (Default: value)
 
+`ENUM_FILE_NAME` File name to output | example NiceEnum Value -> NiceEnum.ts (The .ts will be added automatically.) | (Default: enum.ts)
 
 ## Warning
 v0.0.1 version only supports postgres SQL relational databases. Please note.

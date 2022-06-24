@@ -4,18 +4,25 @@ import path from "path";
 import { tableEnumDataT } from "../database";
 import { firstUpper } from "./tools";
 
-export const enumGenrator = async (enumValues: tableEnumDataT[], enumPath: string) => {
+type EnumGeneratorT = { 
+  enumValues: tableEnumDataT[],
+  enumPath: string, 
+  enumFileName: string
+}
+
+export const enumGenrator = async ({enumValues, enumPath, enumFileName}: EnumGeneratorT) => {
   await fs.promises.mkdir(enumPath, {
     recursive: true,
   });
-  fs.writeFileSync(path.join(enumPath, "enums.d.ts"), '')
+  fs.writeFileSync(path.join(enumPath, enumFileName), '')
   enumValues.forEach(async (item)=> {
     try {
     const enumLists = item.enumData.map((enumValue)=>{
-      return `"${firstUpper(enumValue)}" = "${enumValue}"\n`
+      return `${firstUpper(enumValue)} = '${enumValue}'\n`
     })
 
     const tableResult = `
+      /** table [${item.tableName}] */
       export enum ${firstUpper(item.tableName)}_Enum {\n
         ${enumLists}
       }`;
@@ -29,7 +36,7 @@ export const enumGenrator = async (enumValues: tableEnumDataT[], enumPath: strin
       parser: "typescript",
     })
 
-    fs.appendFileSync(path.join(enumPath, "enums.d.ts"),prettierEnum )
+    fs.appendFileSync(path.join(enumPath, enumFileName),prettierEnum )
   } catch (e) {
    console.error(e)
   }

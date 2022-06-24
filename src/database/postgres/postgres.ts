@@ -3,7 +3,7 @@ import { enumGenrator } from "../../utils"
 import { pgFindEnumTables, pgFindEnumTableValues } from "./sql"
 import { getPostgresEnumTableValueT, tableEnumDataT } from "./type"
 
-export const getPostgresEnumTableValue = async({ databaseUrl, enumPrefix, enumTableColumn, outputPath }: getPostgresEnumTableValueT) => {
+export const getPostgresEnumTableValue = async({ databaseUrl, enumPrefix, enumTableColumn, outputPath, enumFileName }: getPostgresEnumTableValueT) => {
   const pool = new Pool({
     connectionString: databaseUrl,
   })
@@ -25,7 +25,11 @@ export const getPostgresEnumTableValue = async({ databaseUrl, enumPrefix, enumTa
         if(!tableEnumData.length) {
           throw new Error('Enum Table does not exist.')
         }
-        await enumGenrator(tableEnumData, outputPath);
+        await enumGenrator({
+          enumValues: tableEnumData, 
+          enumPath: outputPath,
+          enumFileName
+        });
       } else {
       return tableEnumData
       }

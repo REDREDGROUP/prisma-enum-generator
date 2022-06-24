@@ -44,42 +44,45 @@ var prettier_1 = __importDefault(require("prettier"));
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 var tools_1 = require("./tools");
-var enumGenrator = function (enumValues, enumPath) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, fs_1.default.promises.mkdir(enumPath, {
-                    recursive: true,
-                })];
-            case 1:
-                _a.sent();
-                fs_1.default.writeFileSync(path_1.default.join(enumPath, "enums.d.ts"), '');
-                enumValues.forEach(function (item) { return __awaiter(void 0, void 0, void 0, function () {
-                    var enumLists, tableResult, prettierEnum;
-                    return __generator(this, function (_a) {
-                        try {
-                            enumLists = item.enumData.map(function (enumValue) {
-                                return "\"".concat((0, tools_1.firstUpper)(enumValue), "\" = \"").concat(enumValue, "\"\n");
-                            });
-                            tableResult = "\n      export enum ".concat((0, tools_1.firstUpper)(item.tableName), "_Enum {\n\n        ").concat(enumLists, "\n      }");
-                            prettierEnum = prettier_1.default.format(tableResult, {
-                                trailingComma: "es5",
-                                tabWidth: 2,
-                                semi: true,
-                                singleQuote: false,
-                                useTabs: false,
-                                parser: "typescript",
-                            });
-                            fs_1.default.appendFileSync(path_1.default.join(enumPath, "enums.d.ts"), prettierEnum);
-                        }
-                        catch (e) {
-                            console.error(e);
-                        }
-                        return [2 /*return*/];
-                    });
-                }); });
-                return [2 /*return*/];
-        }
+var enumGenrator = function (_a) {
+    var enumValues = _a.enumValues, enumPath = _a.enumPath, enumFileName = _a.enumFileName;
+    return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, fs_1.default.promises.mkdir(enumPath, {
+                        recursive: true,
+                    })];
+                case 1:
+                    _b.sent();
+                    fs_1.default.writeFileSync(path_1.default.join(enumPath, enumFileName), '');
+                    enumValues.forEach(function (item) { return __awaiter(void 0, void 0, void 0, function () {
+                        var enumLists, tableResult, prettierEnum;
+                        return __generator(this, function (_a) {
+                            try {
+                                enumLists = item.enumData.map(function (enumValue) {
+                                    return "".concat((0, tools_1.firstUpper)(enumValue), " = '").concat(enumValue, "'\n");
+                                });
+                                tableResult = "\n      /** table [".concat(item.tableName, "] */\n      export enum ").concat((0, tools_1.firstUpper)(item.tableName), "_Enum {\n\n        ").concat(enumLists, "\n      }");
+                                prettierEnum = prettier_1.default.format(tableResult, {
+                                    trailingComma: "es5",
+                                    tabWidth: 2,
+                                    semi: true,
+                                    singleQuote: false,
+                                    useTabs: false,
+                                    parser: "typescript",
+                                });
+                                fs_1.default.appendFileSync(path_1.default.join(enumPath, enumFileName), prettierEnum);
+                            }
+                            catch (e) {
+                                console.error(e);
+                            }
+                            return [2 /*return*/];
+                        });
+                    }); });
+                    return [2 /*return*/];
+            }
+        });
     });
-}); };
+};
 exports.enumGenrator = enumGenrator;
 //# sourceMappingURL=enum-generator.js.map

@@ -41,7 +41,7 @@ var pg_1 = require("pg");
 var utils_1 = require("../../utils");
 var sql_1 = require("./sql");
 var getPostgresEnumTableValue = function (_a) {
-    var databaseUrl = _a.databaseUrl, enumPrefix = _a.enumPrefix, enumTableColumn = _a.enumTableColumn, outputPath = _a.outputPath;
+    var databaseUrl = _a.databaseUrl, enumPrefix = _a.enumPrefix, enumTableColumn = _a.enumTableColumn, outputPath = _a.outputPath, enumFileName = _a.enumFileName;
     return __awaiter(void 0, void 0, void 0, function () {
         var pool, getEnumTables, tableEnumData, _i, _b, item, getEnumValues;
         return __generator(this, function (_c) {
@@ -78,7 +78,11 @@ var getPostgresEnumTableValue = function (_a) {
                     if (!tableEnumData.length) {
                         throw new Error('Enum Table does not exist.');
                     }
-                    return [4 /*yield*/, (0, utils_1.enumGenrator)(tableEnumData, outputPath)];
+                    return [4 /*yield*/, (0, utils_1.enumGenrator)({
+                            enumValues: tableEnumData,
+                            enumPath: outputPath,
+                            enumFileName: enumFileName
+                        })];
                 case 6:
                     _c.sent();
                     return [3 /*break*/, 8];
