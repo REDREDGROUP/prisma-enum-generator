@@ -48,7 +48,7 @@ var database_1 = require("./database");
     onGenerate: function (options) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var outputPath, dbProviders, dbUrl, enumPrefix, enumTableColumn, _b;
+            var outputPath, dbProviders, dbUrl, enumPrefix, enumTableColumn, enumFileName, _b;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -57,6 +57,7 @@ var database_1 = require("./database");
                         dbUrl = options.datasources[0].url.value || process.env[options.datasources[0].url.fromEnvVar || 0];
                         enumPrefix = process.env.ENUM_PREFIX || 'enum_';
                         enumTableColumn = process.env.ENUM_TABLE_COLUMN || 'value';
+                        enumFileName = process.env.ENUM_FILE_NAME ? process.env.ENUM_FILE_NAME + '.ts' : "enums.ts";
                         if (!outputPath) {
                             throw new Error('Enum Exports Failed.');
                         }
@@ -72,6 +73,7 @@ var database_1 = require("./database");
                             databaseUrl: dbUrl,
                             enumPrefix: enumPrefix,
                             enumTableColumn: enumTableColumn,
+                            enumFileName: enumFileName,
                             outputPath: outputPath
                         })];
                     case 2:

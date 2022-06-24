@@ -15,7 +15,7 @@ generatorHandler({
       const dbUrl = options.datasources[0].url.value || process.env[options.datasources[0].url.fromEnvVar || 0]
       const enumPrefix = process.env.ENUM_PREFIX || 'enum_';
       const enumTableColumn = process.env.ENUM_TABLE_COLUMN || 'value'
-
+      const enumFileName = process.env.ENUM_FILE_NAME ? process.env.ENUM_FILE_NAME+'.ts' : "enums.ts"
       if(!outputPath) {
         throw new Error('Enum Exports Failed.')
       }
@@ -30,6 +30,7 @@ generatorHandler({
             databaseUrl: dbUrl,
             enumPrefix,
             enumTableColumn,
+            enumFileName,
             outputPath
           })
           break;

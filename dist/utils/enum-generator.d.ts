@@ -1,2 +1,8 @@
 import { tableEnumDataT } from "../database";
-export declare const enumGenrator: (enumValues: tableEnumDataT[], enumPath: string) => Promise<void>;
+declare type EnumGeneratorT = {
+    enumValues: tableEnumDataT[];
+    enumPath: string;
+    enumFileName: string;
+};
+export declare const enumGenrator: ({ enumValues, enumPath, enumFileName }: EnumGeneratorT) => Promise<void>;
+export {};
